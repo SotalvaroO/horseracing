@@ -4,12 +4,8 @@
  */
 package bet.horserisingsun.horseracing.model;
 
-/**
- *
- * @author Santiago
- */
 public class HorseEntity {
-    
+
     private Integer id;
     private String name;
 
@@ -36,8 +32,10 @@ public class HorseEntity {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
-            
-    
+
+    @Override
+    public String toString() {
+        return "HorseEntity{" + "id = " + id + ", name = " + name + '}';
+    }
+
 }

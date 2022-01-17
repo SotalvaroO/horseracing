@@ -4,12 +4,8 @@
  */
 package bet.horserisingsun.horseracing.model;
 
-/**
- *
- * @author Santiago
- */
 public class PlayerEntity {
-    
+
     private Integer id;
     private String name;
     //dato mutable
@@ -20,6 +16,10 @@ public class PlayerEntity {
 
     public PlayerEntity(Integer id, String name, int amount) {
         this.id = id;
+        this.name = name;
+        this.amount = amount;
+    }
+    public PlayerEntity(String name, int amount) {
         this.name = name;
         this.amount = amount;
     }
@@ -48,6 +48,4 @@ public class PlayerEntity {
         this.amount = amount;
     }
 
-    
-    
 }

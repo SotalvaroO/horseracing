@@ -1,0 +1,19 @@
+{
+    "players": [{
+            "amount": 1,
+            "name": "sdf1",
+            "id": 1
+        }, {
+            "amount": 5634,
+            "name": "fgdd",
+            "id": 2
+        }, {
+            "amount": 56343,
+            "name": "hjkhj",
+            "id": 3
+        }, {
+            "amount": 6743,
+            "name": "hjghf",
+            "id": 7
+        }]
+}

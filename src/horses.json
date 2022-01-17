@@ -1,0 +1,20 @@
+{
+    "horses": [
+        {
+            "id": 1,
+            "name": "Mostufa"
+        },
+        {
+            "id": 2,
+            "name": "Omicron"
+        },
+        {
+            "id": 3,
+            "name": "Paracron"
+        },
+        {
+            "id": 4,
+            "name": "Trueno"
+        }
+    ]
+}

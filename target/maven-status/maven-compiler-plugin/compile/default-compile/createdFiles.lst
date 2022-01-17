@@ -1,1 +1,8 @@
-bet\horserisingsun\horseracing\Main.class
+bet\horserisingsun\horseracing\model\HorseEntity.class
+bet\horserisingsun\horseracing\controller\PlayerController.class
+bet\horserisingsun\horseracing\model\BetEntity.class
+bet\horserisingsun\horseracing\controller\BetController.class
+bet\horserisingsun\horseracing\controller\HorseController.class
+bet\horserisingsun\horseracing\model\PlayerEntity.class
+bet\horserisingsun\horseracing\controller\RaceController.class
+bet\horserisingsun\horseracing\model\RaceEntity.class
