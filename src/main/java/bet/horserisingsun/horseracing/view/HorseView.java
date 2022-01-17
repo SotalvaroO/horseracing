@@ -4,11 +4,16 @@
  */
 package bet.horserisingsun.horseracing.view;
 
+import bet.horserisingsun.horseracing.Main;
+import bet.horserisingsun.horseracing.MainFrame;
 import bet.horserisingsun.horseracing.controller.HorseController;
 import bet.horserisingsun.horseracing.controller.PlayerController;
+import bet.horserisingsun.horseracing.model.BetEntity;
 import bet.horserisingsun.horseracing.model.HorseEntity;
 import bet.horserisingsun.horseracing.model.PlayerEntity;
+import bet.horserisingsun.horseracing.model.RaceEntity;
 import java.util.ArrayList;
+import javax.swing.JComboBox;
 
 public class HorseView extends javax.swing.JFrame {
 
@@ -17,39 +22,71 @@ public class HorseView extends javax.swing.JFrame {
      */
     HorseController horseController = new HorseController();
     PlayerController playerController = new PlayerController();
+    public static ArrayList<HorseEntity> horses = new ArrayList<>();
+    public static ArrayList<PlayerEntity> players = MainFrame.players;
+    public static ArrayList<HorseEntity> selectedHorses = new ArrayList<>();
+
+    //public static ArrayList<BetEntity> bets = new ArrayList<>();
+    public static ArrayList<RaceEntity> races = new ArrayList<>();
+    public static int raceCounter = 0;
 
     public HorseView() {
-        
 
         initComponents();
 
         try {
-            ArrayList<HorseEntity> horses = horseController.getHorses();
-            ArrayList<PlayerEntity> players = playerController.getPlayers();
+            horses = Main.gHorses;
+            //players = playerController.getPlayers();
             String[] horsesName = new String[4];
             String[] playersName = new String[4];
             int count = 0;
+            int count2 = 0;
             while (count <= 3) {
                 horsesName[count] = horses.get(count).getName();
-                playersName[count] = players.get(count).getName();
+
                 count++;
             }
-            jListHorse.setListData(horsesName);
-            for(String name: horsesName){
-                jComboBox1.addItem(name);
-                jComboBox2.addItem(name);
-                jComboBox3.addItem(name);
-                jComboBox4.addItem(name);
+            while (count2 < players.size()) {
+                playersName[count2] = players.get(count2).getName();
+                count2++;
             }
+            jListHorse.setListData(horsesName);
+            for (String name : horsesName) {
+                
+                if (playersName[0]!=null) {
+                    jComboBox1.addItem(name);
+                }else{
+                    jComboBox1.setEnabled(false);
+                }
+                
+                if (playersName[0]!=null) {
+                    jComboBox2.addItem(name);
+                }else{
+                    jComboBox2.setEnabled(false);
+                }
+                if (playersName[0]!=null) {
+                    jComboBox3.addItem(name);
+                }else{
+                    jComboBox3.setEnabled(false);
+                }
+                if (playersName[0]!=null) {
+                    jComboBox4.addItem(name);
+                }else{
+                    jComboBox4.setEnabled(false);
+                }
+                
+                
+            }
+
             
-                jLabelJugador1.setText(playersName[0]);
-                jLabelJugador2.setText(playersName[1]);
-                jLabelJugador3.setText(playersName[2]);
-                jLabelJugador4.setText(playersName[3]);
-            
+            jLabelJugador1.setText(playersName[0]);
+            jLabelJugador2.setText(playersName[1]);
+            jLabelJugador3.setText(playersName[2]);
+            jLabelJugador4.setText(playersName[3]);
+
         } catch (Exception e) {
         }
-        
+
     }
 
     /**
@@ -71,14 +108,15 @@ public class HorseView extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox<>();
         jComboBox3 = new javax.swing.JComboBox<>();
         jComboBox4 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        jTextFieldAmount1 = new javax.swing.JTextField();
+        jTextFieldAmount2 = new javax.swing.JTextField();
+        jTextFieldAmount3 = new javax.swing.JTextField();
+        jTextFieldAmount4 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jButtonPlay = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,19 +136,19 @@ public class HorseView extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldAmount1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTextFieldAmount1ActionPerformed(evt);
             }
         });
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldAmount2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                jTextFieldAmount2ActionPerformed(evt);
             }
         });
 
-        jTextField4.setToolTipText("");
+        jTextFieldAmount4.setToolTipText("");
 
         jLabel1.setText("cantidad");
 
@@ -119,6 +157,13 @@ public class HorseView extends javax.swing.JFrame {
         jLabel3.setText("cantidad");
 
         jLabel4.setText("cantidad");
+
+        jButtonPlay.setText("A jugar!");
+        jButtonPlay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPlayActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,22 +192,26 @@ public class HorseView extends javax.swing.JFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(jLabel2)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldAmount2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(jLabel3)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextFieldAmount3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(jLabel4)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jTextFieldAmount4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(33, 33, 33)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextFieldAmount1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(84, 84, 84)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addComponent(jButtonPlay)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,43 +224,110 @@ public class HorseView extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelJugador1)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldAmount1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldAmount2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelJugador2)
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelJugador3)
                             .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldAmount3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabelJugador4)
                             .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldAmount4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))))
-                .addContainerGap(278, Short.MAX_VALUE))
+                .addGap(46, 46, 46)
+                .addComponent(jButtonPlay)
+                .addContainerGap(209, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private HorseEntity getSelectedHorse(JComboBox<String> jc) {
+
+        HorseEntity selectedHorse = new HorseEntity();
+        selectedHorse.setName(jc.getSelectedItem().toString());
+
+        if (selectedHorse.getName().equals("Mostufa")) {
+            selectedHorse.setId(1);
+        }
+        if (selectedHorse.getName().equals("Omicron")) {
+            selectedHorse.setId(2);
+        }
+        if (selectedHorse.getName().equals("Paracron")) {
+            selectedHorse.setId(3);
+        }
+        if (selectedHorse.getName().equals("Trueno")) {
+            selectedHorse.setId(4);
+        }
+        return selectedHorse;
+    }
+
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jTextFieldAmount1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAmount1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTextFieldAmount1ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void jTextFieldAmount2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAmount2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_jTextFieldAmount2ActionPerformed
+
+    private void jButtonPlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlayActionPerformed
+        ArrayList<BetEntity> bets = new ArrayList<>();
+        
+
+        for (int i = 0; i < players.size(); i++) {
+            BetEntity bet = new BetEntity();
+            bet.setPlayer(players.get(i));
+            if (i == 0) {
+                bet.setHorse(getSelectedHorse(jComboBox1));
+                bet.setBetAmount(Integer.parseInt(jTextFieldAmount1.getText()));
+            }
+            if (i == 1) {
+                bet.setHorse(getSelectedHorse(jComboBox2));
+                bet.setBetAmount(Integer.parseInt(jTextFieldAmount2.getText()));
+            }
+            if (i == 2) {
+                bet.setHorse(getSelectedHorse(jComboBox3));
+                bet.setBetAmount(Integer.parseInt(jTextFieldAmount3.getText()));
+            }
+            if (i == 3) {
+                bet.setHorse(getSelectedHorse(jComboBox4));
+                bet.setBetAmount(Integer.parseInt(jTextFieldAmount4.getText()));
+            }
+            bets.add(bet);
+
+        }
+        System.out.println("Betamount");
+        System.out.println(bets.get(0).getBetAmount());
+
+        RaceEntity race = new RaceEntity();
+        race.setId(raceCounter + 1);
+        race.setHorses(horses);
+        race.setBets(bets);
+        int totalRaceAmount = 0;
+        for (BetEntity b : bets) {
+            totalRaceAmount = totalRaceAmount + b.getBetAmount();
+        }
+        race.setTotalBetAmount(totalRaceAmount);
+        races.add(race);
+        WinnerView w = new WinnerView();
+        
+        w.setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_jButtonPlayActionPerformed
 
     public void fillHorses(ArrayList<HorseEntity> horses) throws Exception {
         horses = horseController.getHorses();
@@ -258,6 +374,7 @@ public class HorseView extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonPlay;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
@@ -272,9 +389,9 @@ public class HorseView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelJugador4;
     private javax.swing.JList<String> jListHorse;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextFieldAmount1;
+    private javax.swing.JTextField jTextFieldAmount2;
+    private javax.swing.JTextField jTextFieldAmount3;
+    private javax.swing.JTextField jTextFieldAmount4;
     // End of variables declaration//GEN-END:variables
 }

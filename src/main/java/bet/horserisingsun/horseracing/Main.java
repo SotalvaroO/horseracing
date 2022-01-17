@@ -31,10 +31,24 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.*;*/
 public class Main {
 
+    public static ArrayList<HorseEntity>gHorses = new ArrayList<>();
+    
+    
     public static void main(String[] args) throws Exception  {
-
+        
+        HorseEntity horse1 = new HorseEntity(1, "Mostufa");
+        HorseEntity horse2 = new HorseEntity(1, "Omicron");
+        HorseEntity horse3 = new HorseEntity(1, "Paracron");
+        HorseEntity horse4 = new HorseEntity(1, "Trueno");
+        
+        
+        gHorses.add(horse1);
+        gHorses.add(horse2);
+        gHorses.add(horse3);
+        gHorses.add(horse4);
+        
         //static ArrayList<PlayerEntity> players = new ArrayList<>();
-        HorseView m = new HorseView();
+        MainFrame m = new MainFrame();
         m.setVisible(true);
 
         /*PlayerController playerController = new PlayerController();

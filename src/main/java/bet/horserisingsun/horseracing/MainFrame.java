@@ -6,6 +6,7 @@ package bet.horserisingsun.horseracing;
 
 import bet.horserisingsun.horseracing.controller.PlayerController;
 import bet.horserisingsun.horseracing.model.PlayerEntity;
+import bet.horserisingsun.horseracing.util.Data;
 import bet.horserisingsun.horseracing.view.HorseView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,16 +18,19 @@ import org.json.simple.JSONObject;
  * @author Santiago
  */
 public class MainFrame extends javax.swing.JFrame {
-
-    /**
-     * Creates new form MainFrame
-     */
+    
+    public static ArrayList<PlayerEntity> players = new ArrayList<>();
+    
     public MainFrame() {
         initComponents();
     }
+    
+    public void getInfo(){
+        Data data = new Data();
+        
+    }
 
     private PlayerController playerController = new PlayerController();
-    ArrayList<PlayerEntity> players = new ArrayList<>();
     String[] playersName = new String[4];
     int count = 0;
 
@@ -123,7 +127,6 @@ public class MainFrame extends javax.swing.JFrame {
         String name = jTextFieldName.getText();
         int amount = Integer.parseInt(jTextFieldAmount.getText());
         PlayerEntity player2Insert = new PlayerEntity(id, name, amount);
-        JSONObject player = playerController.createPlayer(player2Insert);
         players.add(player2Insert);
         playersName[count] = player2Insert.getName();
         jListPlayer.setListData(playersName);
@@ -137,6 +140,7 @@ public class MainFrame extends javax.swing.JFrame {
             jButtonNextPlayer.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent arg0) {
+
                     HorseView h = new HorseView();
                     setVisible(false);
                     h.setVisible(true);

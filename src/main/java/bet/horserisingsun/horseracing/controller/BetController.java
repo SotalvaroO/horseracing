@@ -67,6 +67,7 @@ public class BetController {
         JSONObject playerJson = (JSONObject) jsonObj.get("player");
         JSONObject horseJson = (JSONObject) jsonObj.get("horse");
         JSONObject raceJson = (JSONObject) jsonObj.get("race");
+        JSONArray horses = (JSONArray)raceJson.get("horses");
         
         PlayerEntity player = new PlayerEntity();
         player.setId(Integer.valueOf(playerJson.get("id").toString()));
@@ -79,6 +80,7 @@ public class BetController {
         
         RaceEntity race = new RaceEntity();
         race.setId(Integer.valueOf(raceJson.get("id").toString()));
+        
 
         bet.setPlayer(player);
         bet.setHorse(horse);
